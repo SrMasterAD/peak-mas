@@ -1,7 +1,8 @@
 import asyncio
 import logging as _logging
+import uuid
 from abc import ABCMeta as _ABCMeta
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Type
 
 import aioxmpp as _aioxmpp
 import spade as _spade
@@ -223,3 +224,82 @@ class CyclicBehaviour(
 class FSMBehaviour(_BehaviourMixin, _spade.behaviour.FSMBehaviour, metaclass=_ABCMeta):
     """A behaviour composed of states (oneshotbehaviours) that may transition from one
     state to another."""
+
+class DynamicBehaviourManager():
+
+    def __init__(self, agent: Agent):
+        self.dynamic_behaviours = {}
+        self.agent = agent
+
+    async def list_behaviours(self):
+        if self.dynamic_behaviours:
+            return self.dynamic_behaviours
+        else:
+            return "No dynamic behaviours available."
+    
+        
+    class Handler(CyclicBehaviour):
+
+        def __init__(self, manager):
+            super().__init__()
+            self.manager = manager
+
+        async def run(self):
+            # Wait for a message
+            
+            while True:
+                msg = await self.receive()
+                if msg and msg.get_metadata("performative") == "add_behaviour":
+                    await self.add_dynamic_behaviour(msg.body)
+                if msg and msg.get_metadata("performative") == "remove_behaviour":
+                    await self.remove_dynamic_behaviour(msg.body)
+                if msg and msg.get_metadata("performative") == "list_behaviours":
+                    await self.list_dynamic_behaviours()
+                if msg and msg.get_metadata("performative") == "run_behaviour":
+                    await self.run_dynamic_behaviour(msg.body)
+                if msg and msg.get_metadata("performative") == "stop_behaviour":
+                    await self.stop_dynamic_behaviour(msg.body)
+            
+        async def add_dynamic_behaviour(self, behaviour_code: str):
+            
+            _module_logger.info("Adding dynamic behaviour.")
+            _module_logger.debug(behaviour_code)
+
+            # Create a unique id for the behaviour
+            behaviour_id = str(uuid.uuid4())
+
+            # Create a new context to execute the code
+            local_context = {}
+            exec(behaviour_code, globals(), local_context)
+            
+            # Search for a class that inherits from _BehaviourMixin
+            behaviour_class = next(
+                (cls for cls in local_context.values() if isinstance(cls, type) and issubclass(cls, _BehaviourMixin)),
+                None
+            )
+            if behaviour_class:
+                behaviour_instance = behaviour_class()
+                self.manager.dynamic_behaviours[behaviour_id] = behaviour_instance
+                _module_logger.info("Dynamic behaviour successfully added.")
+            else:
+                _module_logger.exception("Class behaviour not found.")        
+        async def remove_dynamic_behaviour(self, behaviour_id: str):
+            behaviour_instance = self.manager.dynamic_behaviours.pop(behaviour_id)
+            del behaviour_instance
+            _module_logger.info("Dynamic behaviour successfully removed.")
+        
+        async def list_dynamic_behaviours(self):
+            # Print the list of dynamic behaviours avaible in the manager
+            _module_logger.info({behaviour_id: str(behaviour_instance) for behaviour_id, behaviour_instance in self.manager.dynamic_behaviours.items()})
+        
+        async def run_dynamic_behaviour(self, behaviour_id: str):
+            # Run the dynamic behaviour
+            _module_logger.info("Executing dynamic behaviour.")
+            self.manager.agent.add_behaviour(self.manager.dynamic_behaviours[behaviour_id])
+            await self.remove_dynamic_behaviour(behaviour_id)
+            
+        async def stop_dynamic_agent(self, jid: str):
+            # Stop the dynamic agent
+            _module_logger.info("Stoping dynamic agent.")
+            self.manager.agent.stop()
+

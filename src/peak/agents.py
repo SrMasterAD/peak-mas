@@ -9,6 +9,9 @@ import aiohttp_cors
 from aioxmpp import JID
 
 from peak import Agent, CyclicBehaviour, Message, PeriodicBehaviour, Template
+from peak.core import DynamicBehaviourManager  # Importando a classe de gerenciamento dinâmico
+
+
 
 _logger = _logging.getLogger(__name__)
 
@@ -462,3 +465,30 @@ class DF(Agent):
 
     async def get_plots(self, request):
         return self.dataanalysis_data
+
+class DynamicAgent(Agent, DynamicBehaviourManager):
+    def __init__(self, jid: JID, cid: int = 0, verify_security: bool = False):
+        Agent.__init__(self, jid, cid, verify_security)
+        DynamicBehaviourManager.__init__(self, self)
+
+    async def setup_dynamic(self):
+        template_add = Template()
+        template_add.set_metadata("performative", "add_behaviour")
+
+        template_remove = Template()
+        template_remove.set_metadata("performative", "remove_behaviour")
+
+        template_list = Template()
+        template_list.set_metadata("performative", "list_behaviours")
+
+        template_run = Template()
+        template_run.set_metadata("performative", "run_behaviour")
+
+        template_stop = Template()
+        template_stop.set_metadata("performative", "stop_behaviour")
+
+        self.add_behaviour(self.Handler(self), template_add)
+        self.add_behaviour(self.Handler(self), template_remove)
+        self.add_behaviour(self.Handler(self), template_list)
+        self.add_behaviour(self.Handler(self), template_run)
+        self.add_behaviour(self.Handler(self), template_stop)
