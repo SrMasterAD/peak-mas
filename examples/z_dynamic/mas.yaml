@@ -1,0 +1,8 @@
+defaults:
+    domain: localhost
+    log_level: DEBUG
+agents:
+    sender:
+        file: Sender.py
+    receiver: 
+        file: Receiver.py
