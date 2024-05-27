@@ -79,14 +79,10 @@ $ peak run path/to/agent.py -j agent@localhost
 > [!IMPORTANT]
 > Change the `localhost` to the domain of the XMPP server you want to connect.
 
-<details><summary>Note</summary>
-<p>
-
 > [!NOTE]
 > If you want to know more about each command we recommend reading the [documentation](http://www.gecad.isep.ipp.pt/peak) or using the `-h` option to see the help message.
 
-</p>
-</details>
+
 
 For more advanced functionalities and examples we recommend you to head forward to the <a href="http://www.gecad.isep.ipp.pt/peak" target="_blank">documentation website</a>.
 
