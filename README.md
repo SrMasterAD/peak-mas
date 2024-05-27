@@ -71,16 +71,19 @@ class agent(Agent):
     async def setup(self):
         self.add_behaviour(self.HelloWorld())
 ```
-It is necessary that the name of the file is the same as the name of the agent's class so PEAK can do the proper parsing. This agent only has a behavior that prints to the terminal the "Hello World" message. To execute the agent just type the following command:
+> [!WARNING]
+> It is necessary that the name of the file is the same as the name of the agent's class so PEAK can do the proper parsing. This agent only has a behavior that prints to the terminal the "Hello World" message. To execute the agent just type the following command:
 ```bash 
 $ peak run path/to/agent.py -j agent@localhost
 ```
-Change the `localhost` to the domain of the XMPP server you want to connect.
+> [!IMPORTANT]
+> Change the `localhost` to the domain of the XMPP server you want to connect.
 
 <details><summary>Note</summary>
 <p>
 
-If you want to know more about each command we recommend reading the [documentation](http://www.gecad.isep.ipp.pt/peak) or using the `-h` option to see the help message.
+> [!NOTE]
+>If you want to know more about each command we recommend reading the [documentation](http://www.gecad.isep.ipp.pt/peak) or using the `-h` option to see the help message.
 
 </p>
 </details>
@@ -107,6 +110,7 @@ This are some functionalities that are being developed and will be released in a
 - Ribeiro, B., Pereira, H., Gomes, L., Vale, Z. (2023). Python-Based Ecosystem for Agent Communities Simulation. In: , et al. 17th International Conference on Soft Computing Models in Industrial and Environmental Applications (SOCO 2022). SOCO 2022. Lecture Notes in Networks and Systems, vol 531. Springer, Cham. https://doi.org/10.1007/978-3-031-18050-7_7
 - Pereira H, Ribeiro B, Gomes L, Vale Z. Smart Grid Ecosystem Modeling Using a Novel Framework for Heterogenous Agent Communities. Sustainability. 2022; 14(23):15983. https://doi.org/10.3390/su142315983
 - Silva C, Faria P, Ribeiro B, Gomes L, Vale Z. Demand Response Contextual Remuneration of Prosumers with Distributed Storage. Sensors. 2022; 22(22):8877. https://doi.org/10.3390/s22228877
+- Ricardo Faia, Bruno Ribeiro, Calvin Goncalves, Luis Gomes, Zita Vale, "Multi-agent based energy community cost optimization considering high electric vehicles penetration," Sustainable Energy Technologies and Assessments, Volume 59, 2023, https://doi.org/10.1016/j.seta.2023.103402. 
 
 
 ## Contributing to PEAK
