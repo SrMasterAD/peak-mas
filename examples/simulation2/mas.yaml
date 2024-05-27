@@ -1,0 +1,11 @@
+defaults:
+    log_level: DEBUG
+    domain: localhost
+agents:
+    server:
+        file: ServerAgent.py
+        resource: server
+    trainer: 
+        file: TrainingAgent.py
+        resource: trainer
+        clones: 2
