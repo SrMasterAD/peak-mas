@@ -83,7 +83,7 @@ $ peak run path/to/agent.py -j agent@localhost
 <p>
 
 > [!NOTE]
->If you want to know more about each command we recommend reading the [documentation](http://www.gecad.isep.ipp.pt/peak) or using the `-h` option to see the help message.
+> If you want to know more about each command we recommend reading the [documentation](http://www.gecad.isep.ipp.pt/peak) or using the `-h` option to see the help message.
 
 </p>
 </details>
