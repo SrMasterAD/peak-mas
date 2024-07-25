@@ -1,5 +1,3 @@
-Here's a README.md tailored for the agent.py file:
-
 # Simple Community Agent Example
 
 This example demonstrates how to create a simple agent that joins a community, sends a hello and goodbye message and then leaves the community using PEAK-MAS community capabilities.

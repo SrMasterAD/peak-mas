@@ -1,6 +1,4 @@
-Here's a new README.md tailored for the agent.py file:
-
-# Hierarchical Community Agent Example
+# Community Hierarchy Example
 
 This example demonstrates how to create an agent that interacts with a hierarchical community structure using PEAK-MAS community capabilities.
 
